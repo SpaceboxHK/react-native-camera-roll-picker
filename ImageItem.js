@@ -4,19 +4,13 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  Text,
+  View
 } from 'react-native';
 import PropTypes from 'prop-types';
 
 const checkIcon = require('./circle-check.png');
 
-const styles = StyleSheet.create({
-  marker: {
-    position: 'absolute',
-    top: 5,
-    right: 5,
-    backgroundColor: 'transparent',
-  },
-});
 
 class ImageItem extends Component {
   componentWillMount() {
@@ -35,7 +29,7 @@ class ImageItem extends Component {
 
   render() {
     const {
-      item, selected, selectedMarker, imageMargin,
+      item, selected, selectedMarker, imageMargin, unselectedMarker, selectedIndex
     } = this.props;
 
     const marker = selectedMarker || (<Image
@@ -44,7 +38,7 @@ class ImageItem extends Component {
     />);
 
     const { image } = item.node;
-
+    var markerText = <Text style={styles.markerIndex}>{selectedIndex + 1}</Text>
     return (
       <TouchableOpacity
         style={{ marginBottom: imageMargin, marginRight: imageMargin }}
@@ -54,11 +48,48 @@ class ImageItem extends Component {
           source={{ uri: image.uri }}
           style={{ height: this.imageSize, width: this.imageSize }}
         />
-        {(selected) ? marker : null}
+        <View style={styles.markerContainer}>
+          <View style={styles.markerContent}>
+            {(selected) ? marker : unselectedMarker }
+            {(selected)? markerText: null }
+          </View>
+        </View>
       </TouchableOpacity>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  marker: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    backgroundColor: 'transparent',
+  },
+  markerContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 5,
+    width: 25,
+    height: 25,
+    right: 5,
+  },
+  markerContent: {
+    flex: 1,
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  markerIndex: {
+    position: 'absolute',
+    top: -2,
+    lineHeight: 25,
+    fontSize: 12,
+    color: '#fff',
+    fontFamily: 'HurmeGeometricSans2-SemiBold'
+  }
+})
 
 ImageItem.defaultProps = {
   item: {},

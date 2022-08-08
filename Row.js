@@ -20,12 +20,12 @@ class Row extends PureComponent {
     this.renderImage = this.renderImage.bind(this);
   }
 
-  renderImage(item, isSelected) {
+  renderImage(item, isSelected, selectedIndex) {
     const {
       imageMargin,
       selectedMarker,
       imagesPerRow,
-      containerWidth,
+      containerWidth
     } = this.props;
 
     const { uri } = item.node.image;
@@ -37,6 +37,7 @@ class Row extends PureComponent {
         selected={isSelected}
         imageMargin={imageMargin}
         selectedMarker={selectedMarker}
+        selectedIndex={selectedIndex}
         imagesPerRow={imagesPerRow}
         containerWidth={containerWidth}
         onClick={this.props.selectImage}
@@ -49,7 +50,7 @@ class Row extends PureComponent {
       if (item === null) {
         return null;
       }
-      return this.renderImage(item, this.props.isSelected[index]);
+      return this.renderImage(item, this.props.isSelected[index], this.props.selectedIndex[index]);
     });
 
     return (
